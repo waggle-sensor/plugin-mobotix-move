@@ -10,6 +10,7 @@ Mobotix camera to a preset position.
 import argparse
 import subprocess
 import os
+import time
 
 def main(args):
 
@@ -48,25 +49,36 @@ def main(args):
         32:"%FF%01%00%07%00%32%3A"
     }
 
-    preset_code = presets.get(args.preset)
-    if not preset_code:
-        print("Invalid preset number")
-        return
 
-    cmd = ["curl",
-        "-u",
-        args.user+':'+args.password,
-        "-X",
-        "POST",
-        "http://{}/control/rcontrol?action=putrs232&rs232outtext=".format(args.ip)+preset_code]
+    # loop over all location if default value
+    if args.preset==99:
+        preset_id = [i for i in range(1, 33)]
+    else:
+        preset_id = args.preset
 
-    print(cmd)
+    for id in preset_id:
+        preset_code = presets.get(id)
+        if not preset_code:
+            print("Invalid preset number")
+            return
 
-    try:
-        result = subprocess.run(cmd, capture_output=True, text=True)
-        print(result.stdout)
-    except subprocess.CalledProcessError as e:
-        print("Error: {}".format(e))
+        cmd = ["curl",
+            "-u",
+            args.user+':'+args.password,
+            "-X",
+            "POST",
+            "http://{}/control/rcontrol?action=putrs232&rs232outtext=".format(args.ip)+preset_code]
+
+        #print(cmd)
+
+        try:
+            result = subprocess.run(cmd, capture_output=True, text=True)
+            #print(result.stdout)
+            time.sleep(120)
+        except subprocess.CalledProcessError as e:
+            print("Error: {}".format(e))
+
+
 
 
 if __name__ == "__main__": 
@@ -84,7 +96,7 @@ if __name__ == "__main__":
         "--preset",
         dest="preset",
         type=int, 
-        default= 1,
+        default= 99,
         help="preset location id")
     parser.add_argument(
         "-u",
