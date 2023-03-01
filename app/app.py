@@ -13,15 +13,6 @@ import os
 
 def main(args):
 
-    base_command = [
-        "curl",
-        "-u",
-        args.user+':'+args.password,
-        "-X",
-        "POST",
-        "http://{}/control/rcontrol?action=putrs232&rs232outtext=".format(args.ip),
-    ]
-
     presets = {
         1: "%FF%01%00%07%00%01%09",
         2: "%FF%01%00%07%00%02%0A",
@@ -62,11 +53,17 @@ def main(args):
         print("Invalid preset number")
         return
 
-    full_command = base_command + [preset_code]
-    print(full_command)
+    cmd = ["curl",
+        "-u",
+        args.user+':'+args.password,
+        "-X",
+        "POST",
+        "http://{}/control/rcontrol?action=putrs232&rs232outtext=".format(args.ip)+preset_code]
+
+    print(cmd)
 
     try:
-        result = subprocess.run(full_command, capture_output=True, text=True)
+        result = subprocess.run(cmd, capture_output=True, text=True)
         print(result.stdout)
     except subprocess.CalledProcessError as e:
         print("Error: {}".format(e))
