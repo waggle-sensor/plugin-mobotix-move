@@ -5,6 +5,7 @@ Created on Wed Mar 01 07:05:11 2023
 1. This is a python version of the Raj's bash script that provides an easy way to move 
 Mobotix camera to a preset position. 
 2. It uses the "curl" command via subprocess to send RS232 commands to the camera.
+3. Currently it scans all the points1-32, but it should be able to perform loop-scan over given set of points.
 """
 
 import argparse
@@ -78,7 +79,7 @@ def move_to_preset(pt_id, args):
         "POST",
         "http://{}/control/rcontrol?action=putrs232&rs232outtext=".format(args.ip)+preset_code]
 
-    #print(cmd)
+    print(cmd)
 
     try:
         result = subprocess.run(cmd, capture_output=True, text=True)
