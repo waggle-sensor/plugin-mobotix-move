@@ -54,7 +54,7 @@ def main(args):
     if args.preset==99:
         preset_id = [i for i in range(1, 33)]
     else:
-        preset_id = args.preset
+        preset_id = [args.preset]
 
     for id in preset_id:
         preset_code = presets.get(id)

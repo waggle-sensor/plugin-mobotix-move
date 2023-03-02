@@ -9,12 +9,12 @@ The 32 preset locations are available for use by calling preset 1-32 or scan wit
 To execute the plugin use the following (from within the built `Docker` container):
 
 ```
-python3 /app/app.py --ip <ip_address> -u <user_id> -p <password> --pt <preset_location>
+python3 /app/app.py --ip ip_address -u user_id -p password --pt preset_location
 ```
-    `<ip_address>`: The IP address or URL of the camera.
-    `<user_id>`: The user ID of the camera.
-    `<password>`: The password of the camera.
-    `<preset_location>`: The preset location ID of the camera (optional, defaults to 1).
+    `ip_address`: The IP address or URL of the camera.
+    `user_id`: The user ID of the camera.
+    `password`: The password of the camera.
+    `preset_location`: The preset location ID of the camera (optional, defaults to 1).
 
 
 Example:
