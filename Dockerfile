@@ -7,4 +7,4 @@ RUN pip3 install --no-cache-dir --upgrade -r /app/requirements.txt
 
 COPY app /app/
 
-#ENTRYPOINT ["python3", "/app/app.py"]
+ENTRYPOINT ["python3", "/app/app.py"]
