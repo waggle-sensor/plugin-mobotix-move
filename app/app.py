@@ -47,8 +47,23 @@ presets = {
         32:"%FF%01%00%07%00%32%3A"
     }
 
+
+
 def loop_check(i, m):
         return m < 0 or i < m
+
+
+
+def scan_preset_loop(args):
+    preset_id = [i for i in range(1, 33)]
+    loops=0
+    while loop_check(loops, args.loops):
+        loops = loops + 1
+        for ptid in preset_id:
+            move_to_preset(ptid, args)
+
+
+
 
 def move_to_preset(pt_id, args):
     preset_code = presets.get(pt_id)
@@ -77,17 +92,12 @@ def move_to_preset(pt_id, args):
 
 
 def main(args):
-    # scan over all location if default value
+    # scan over all location if value=99
     if args.preset==99:
-        preset_id = [i for i in range(1, 33)]
+        scan_preset_loop(args)
     else:
-        preset_id = [args.preset]
-
-
-
-    for ptid in preset_id:
+        preset_id = args.preset
         move_to_preset(ptid, args)
-        
 
 
 
@@ -126,7 +136,6 @@ if __name__ == "__main__":
         default=os.getenv("LOOPS", -1),
         help="Number of loops to perform. Defaults to 'infinite' (-1)",
     )
-
     parser.add_argument(
         "-u",
         "--user",
