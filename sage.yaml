@@ -20,6 +20,8 @@ inputs:
   type: "int"
 - id: "i"
   type: "int"
+- id: "l"
+  type: "int"
 - id: "u"
   type: "string"
 - id: "p"

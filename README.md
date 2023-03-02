@@ -9,13 +9,14 @@ The 32 preset locations are available for use by calling preset 1-32 or scan wit
 To execute the plugin use the following (from within the built `Docker` container):
 
 ```
-python3 /app/app.py --ip <ip_address> -i <interval> -u <user_id> -p <password> --pt <preset_location>
+python3 /app/app.py --ip <ip_address> -i <interval> -l <loops> -u <user_id> -p <password> --pt <preset_location>
 ```
     `<ip_address>`: The IP address or URL of the camera.
     `<user_id>`: The user ID of the camera.
-    `<interval>`: Interval between the move in seconds.
+    `<interval>`: Interval between the move in seconds (optional, defaults to 120 Seconds).
+     `<loops>`: Scanning loops to perform (optional, defaults to -1=infinite).
     `<password>`: The password of the camera.
-    `<preset_location>`: The preset location ID of the camera (optional, defaults to 1).
+    `<preset_location>`: The preset location ID of the camera (optional, defaults to 99=scanning mode).
 
 
 Example:
