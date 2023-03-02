@@ -12,11 +12,7 @@ import subprocess
 import os
 import time
 
-
-
-def main(args):
-
-    presets = {
+presets = {
         1: "%FF%01%00%07%00%01%09",
         2: "%FF%01%00%07%00%02%0A",
         3: "%FF%01%00%07%00%03%0B",
@@ -51,16 +47,11 @@ def main(args):
         32:"%FF%01%00%07%00%32%3A"
     }
 
+def loop_check(i, m):
+        return m < 0 or i < 
 
-    # loop over all location if default value
-    if args.preset==99:
-        preset_id = [i for i in range(1, 33)]
-    else:
-        preset_id = [args.preset]
-
-
-    for id in preset_id:
-        preset_code = presets.get(id)
+def move_to_preset(pt_id, args):
+    preset_code = presets.get(pt_id)
         if not preset_code:
             print("Invalid preset number")
             return
@@ -80,6 +71,23 @@ def main(args):
             time.sleep(args.interval)
         except subprocess.CalledProcessError as e:
             print("Error: {}".format(e))
+            return 1
+
+    return 0
+
+
+def main(args):
+    # scan over all location if default value
+    if args.preset==99:
+        preset_id = [i for i in range(1, 33)]
+    else:
+        preset_id = [args.preset]
+
+
+
+    for ptid in preset_id:
+        move_to_preset(ptid, args)
+        
 
 
 
@@ -110,6 +118,15 @@ if __name__ == "__main__":
         default=os.getenv("MOVE_INTERVAL", 120),
         help="Seconds to sleep in-between movements",
     )
+    parser.add_argument(
+        "-l",
+        "--loops",
+        dest="loops",
+        type=int,
+        default=os.getenv("LOOPS", -1),
+        help="Number of loops to perform. Defaults to 'infinite' (-1)",
+    )
+
     parser.add_argument(
         "-u",
         "--user",
