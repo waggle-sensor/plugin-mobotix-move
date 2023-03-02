@@ -12,6 +12,8 @@ import subprocess
 import os
 import time
 
+
+
 def main(args):
 
     presets = {
@@ -56,6 +58,7 @@ def main(args):
     else:
         preset_id = [args.preset]
 
+
     for id in preset_id:
         preset_code = presets.get(id)
         if not preset_code:
@@ -74,7 +77,7 @@ def main(args):
         try:
             result = subprocess.run(cmd, capture_output=True, text=True)
             #print(result.stdout)
-            time.sleep(120)
+            time.sleep(args.interval)
         except subprocess.CalledProcessError as e:
             print("Error: {}".format(e))
 
@@ -97,7 +100,16 @@ if __name__ == "__main__":
         dest="preset",
         type=int, 
         default= 99,
-        help="preset location id")
+        help="preset location id"
+        )
+    parser.add_argument(
+        "-i",
+        "--interval",
+        dest="interval",
+        type=int,
+        default=os.getenv("MOVE_INTERVAL", 120),
+        help="Seconds to sleep in-between movements",
+    )
     parser.add_argument(
         "-u",
         "--user",
