@@ -11,6 +11,8 @@ To execute the plugin use the following (from within the built `Docker` containe
 ```
 python3 /app/app.py --ip ip_address -u user_id -p password --pt preset_location
 ```
+
+
     `ip_address`: The IP address or URL of the camera.
     `user_id`: The user ID of the camera.
     `password`: The password of the camera.
@@ -23,6 +25,8 @@ Example:
 python3 /app/app.py --ip 10.11.12.13 -u admin -p password --pt 5
 ```
 
+This moves camera with ip 10.11.12.13 to preset point 5.
+
 ### Development
 
 The `Docker` container can be built by executing the following:
@@ -30,3 +34,5 @@ The `Docker` container can be built by executing the following:
 ```
 ./build.sh
 ```
+
+Note: The camera always send the OK signal even if the location string is not properly sent.
