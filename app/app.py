@@ -48,30 +48,30 @@ presets = {
     }
 
 def loop_check(i, m):
-        return m < 0 or i < 
+        return m < 0 or i < m
 
 def move_to_preset(pt_id, args):
     preset_code = presets.get(pt_id)
-        if not preset_code:
-            print("Invalid preset number")
-            return
+    if not preset_code:
+        print("Invalid preset number")
+        return
 
-        cmd = ["curl",
-            "-u",
-            args.user+':'+args.password,
-            "-X",
-            "POST",
-            "http://{}/control/rcontrol?action=putrs232&rs232outtext=".format(args.ip)+preset_code]
+    cmd = ["curl",
+        "-u",
+        args.user+':'+args.password,
+        "-X",
+        "POST",
+        "http://{}/control/rcontrol?action=putrs232&rs232outtext=".format(args.ip)+preset_code]
 
-        #print(cmd)
+    #print(cmd)
 
-        try:
-            result = subprocess.run(cmd, capture_output=True, text=True)
-            #print(result.stdout)
-            time.sleep(args.interval)
-        except subprocess.CalledProcessError as e:
-            print("Error: {}".format(e))
-            return 1
+    try:
+        result = subprocess.run(cmd, capture_output=True, text=True)
+        #print(result.stdout)
+        time.sleep(args.interval)
+    except subprocess.CalledProcessError as e:
+        print("Error: {}".format(e))
+        return 1
 
     return 0
 
