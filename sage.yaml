@@ -1,6 +1,6 @@
 name: "mobotix-move"
 description: "Move Mobotix camera to a specified preset location"
-version: "0.23.3.1"
+version: "0.23.3.2"
 authors: "Bhupendra Raut <braut@anl.gov>"
 collaborators: "Raj Sankaran*, Dario Dematties Reyes, Joseph Swantek, Neal Conrad, Nicola Ferrier, Pete Beckman, Robert Jackson, Scott Collis, Sean Shahkarami, Seongha Park, Sergey Shemyakin, Wolfgang Gerlach, Yongho Kim"
 funding: "NSF 1935984"

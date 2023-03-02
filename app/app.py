@@ -92,7 +92,7 @@ if __name__ == "__main__":
         help="Camera IP or URL",
     )
     parser.add_argument(
-        "--pt",
+        "-pt",
         "--preset",
         dest="preset",
         type=int, 
