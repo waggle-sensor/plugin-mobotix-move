@@ -13,6 +13,8 @@ import subprocess
 import os
 import time
 
+from waggle.plugin import Plugin
+
 presets = {
         1: "%FF%01%00%07%00%01%09",
         2: "%FF%01%00%07%00%02%0A",
@@ -54,23 +56,32 @@ def loop_check(i, m):
         return m < 0 or i < m
 
 
-
+# Scans all preset positions in loop
 def scan_preset_loop(args):
     preset_id = [i for i in range(1, 33)]
     loops=0
-    while loop_check(loops, args.loops):
-        loops = loops + 1
-        for ptid in preset_id:
-            move_to_preset(ptid, args)
+    with Plugin() as plugin:
+        while loop_check(loops, args.loops):
+            loops = loops + 1
+            for ptid in preset_id:
+                status = move_to_preset(ptid, args)
+                plugin.publish('mobotix.move.status', status)
 
 
+# Move to single preset position and report to the beehive.
+def move_preset_single(args):
+    preset_id = args.preset
+    with Plugin() as plugin:
+        status = move_to_preset(ptid, args)
+        plugin.publish('mobotix.move.status', status)
 
 
+# Move to only single preset position (Does not report to the beehive)
 def move_to_preset(pt_id, args):
     preset_code = presets.get(pt_id)
     if not preset_code:
         print("Invalid preset number")
-        return
+        return -1
 
     cmd = ["curl",
         "-u",
@@ -79,26 +90,27 @@ def move_to_preset(pt_id, args):
         "POST",
         "http://{}/control/rcontrol?action=putrs232&rs232outtext=".format(args.ip)+preset_code]
 
-    print(cmd)
+    #print(cmd)
 
     try:
         result = subprocess.run(cmd, capture_output=True, text=True)
-        #print(result.stdout)
+        return result.stdout
         time.sleep(args.interval)
     except subprocess.CalledProcessError as e:
-        print("Error: {}".format(e))
-        return 1
+        #print("Error: {}".format(e))
+        return e
 
     return 0
 
 
+# calls move functions 
 def main(args):
     # scan over all location if value=99
     if args.preset==99:
         scan_preset_loop(args)
     else:
-        preset_id = args.preset
-        move_to_preset(ptid, args)
+        move_preset_single(args)
+
 
 
 
