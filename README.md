@@ -20,7 +20,8 @@ To execute the plugin use the following (from within the built `Docker` containe
     `<loops>`: Scanning loops to perform (optional, defaults to -1=infinite).
     `<user_id>`: The user ID of the camera. Defaults to `admin`.
     `<password>`: The password of the camera. This argument is required.
-    `<preset_location>`: The preset location ID (currently between 1 and 32) (optional, defaults to 99=scanning mode will perform a loop-scan over all preset positions). 
+    `<preset_location>`: The preset location ID (currently between 1 and 32) (optional, 
+    defaults to 99=scanning mode will perform a loop-scan over all preset positions). 
 
 
 Example:
