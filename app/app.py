@@ -14,7 +14,7 @@ import os
 import time
 
 from waggle.plugin import Plugin
-
+# Dictionary contains "presets" which maps preset position numbers to the corresponding string for curl command for that position. 
 presets = {
         1: "%FF%01%00%07%00%01%09",
         2: "%FF%01%00%07%00%02%0A",
@@ -53,11 +53,23 @@ presets = {
 
 
 def loop_check(i, m):
+        '''
+        A helper function used to control the loop-scan.
+        
+        Returns True if i < m, where i is a loop counter 
+        and m is the number of times to perform the loop-scan. 
+        '''
         return m < 0 or i < m
 
 
 # Scans all preset positions in loop
 def scan_preset_loop(args):
+    '''
+    Performs the loop-scan over all preset positions. 
+    
+    It calls the move_to_preset function for each preset position
+    and publishes the camera message to the beehive.
+    '''
     preset_id = [i for i in range(1, 33)]
     loops=0
     with Plugin() as plugin:
@@ -70,6 +82,9 @@ def scan_preset_loop(args):
 
 # Move to single preset position and report to the beehive.
 def move_preset_single(args):
+    '''
+    Moves the camera to a single preset position and publishes the camera message to the beehive.
+    '''    
     preset_id = args.preset
     with Plugin() as plugin:
         status = move_to_preset(ptid, args)
@@ -78,6 +93,11 @@ def move_preset_single(args):
 
 # Move to only single preset position (Does not report to the beehive)
 def move_to_preset(pt_id, args):
+    '''
+    This function sends the curl command for the given preset position to the camera via subprocess. 
+    It returns the result of the "curl" command. 
+    Do not call it directly as this will not publish error messages in the beehive.
+    '''
     preset_code = presets.get(pt_id)
     if not preset_code:
         print("Invalid preset number")
